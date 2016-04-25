@@ -1,6 +1,7 @@
-$background: cornsilk;
-$row-background: azure;
+$background: Cornsilk;
+$row-background: Azure;
 $square-background: DarkSeaGreen;
+$base-border-radius: 0.25rem;
 
 body {
   background: $background;
@@ -11,22 +12,30 @@ body {
 
   align-items: center;
   justify-content: center;
+
+  font-family: helvetica;
+  color: $square-background;
 }
 
 .grid {
   display: flex;
+  flex-direction: column;
+
+  background-color: $row-background;
+  border-radius: $base-border-radius;
+  padding: 0.25rem;
 
   .row {
-    background-color: $row-background;
+    display: flex;
 
     .square {
       background-color: $square-background;
-      margin: 0.5rem;
+      border-radius: $base-border-radius;
+      margin: 0.25rem;
 
       height: 5rem;
       width: 5rem;
 
-      font-family: helvetica;
       color: $row-background;
       font-size: 4rem;
       text-align: center;

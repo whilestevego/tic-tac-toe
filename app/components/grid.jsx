@@ -6,22 +6,37 @@ import Square from './square.jsx';
 export default function Grid (props) {
   const {grid} = props;
 
+  const squares = _.map(
+    grid,
+    (square, index) => {
+      const boundClick = props.onClick.bind({}, index);
+
+      return (
+        <Square
+          key={index}
+          onClick={boundClick}
+          square={square} />
+      );
+    }
+  );
+
   return (
     <section className="grid">
       {
-        //TODO: Create function or component generation here
-        _.map(
-          _.chunk(grid, 3),
-          squares =>
-          <section className='row'>
-            {
-              _.map(
-                squares,
-                (square, index) => <Square key={index} square={square} />)
-            }
-          </section>
-          )
+        _(squares).chunk(3).map(
+          (squareRow, index) => (
+            <section
+              key={index}
+              className="row">
+              {squareRow}
+            </section>
+            )
+        ).value()
       }
     </section>
   );
 }
+
+Grid.propTypes = {
+  onClick: () => {}
+};
