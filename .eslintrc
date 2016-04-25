@@ -1,0 +1,16 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "plugins": [
+    "babel"
+  ],
+  "rules": {
+    "strict": 0,
+    "comma-dangle": 0,
+    "babel/object-shorthand": 1,
+    "babel/array-bracket-spacing": 1,
+    "babel/object-curly-spacing": 1,
+    "object-curly-spacing": 0,
+    "react/jsx-boolean-value": [2, "always"]
+  }
+}
