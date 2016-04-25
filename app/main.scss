@@ -1,3 +1,35 @@
+$background: cornsilk;
+$row-background: azure;
+$square-background: DarkSeaGreen;
+
 body {
-  background: cornsilk;
+  background: $background;
+  display: flex;
+
+  height: 100vh;
+  width: 100vw;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.grid {
+  display: flex;
+
+  .row {
+    background-color: $row-background;
+
+    .square {
+      background-color: $square-background;
+      margin: 0.5rem;
+
+      height: 5rem;
+      width: 5rem;
+
+      font-family: helvetica;
+      color: $row-background;
+      font-size: 4rem;
+      text-align: center;
+    }
+  }
 }
