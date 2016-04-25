@@ -1,11 +1,14 @@
 import React from 'react';
 
-export default function Square(props) {
+export default function Square({square, onClick}) {
+  const extraProps = {};
+  if (square === ' ') extraProps.onClick = onClick;
+
   return (
     <div
-      onClick={props.onClick}
+      {...extraProps}
       className="square">
-      {props.square}
+      {square}
     </div>
   );
 }
