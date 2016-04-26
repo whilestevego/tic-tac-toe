@@ -43,6 +43,12 @@ export default function Board(props) {
   );
 }
 
+Board.propTypes = {
+  grid: PropTypes.arrayOf(PropTypes.string),
+  winningRow: PropTypes.arrayOf(PropTypes.number),
+  onClick: PropTypes.func
+};
+
 Board.defaultProps = {
   onClick: () => {}
 };

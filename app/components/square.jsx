@@ -18,6 +18,12 @@ export default function Square({square, onClick, isWinner}) {
   );
 }
 
+Square.propTypes = {
+  square: PropTypes.string,
+  isWinner: PropTypes.bool,
+  onClick: PropTypes.func
+};
+
 Square.defaultProps = {
   onClick: () => {}
 };
