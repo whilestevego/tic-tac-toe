@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Square from './square.jsx';
 
 export default function Grid (props) {
-  const {grid} = props;
+  const {grid, winningRow} = props;
 
   const squares = _.map(
     grid,
@@ -15,13 +15,19 @@ export default function Grid (props) {
         <Square
           key={index}
           onClick={boundClick}
+          winner={_.includes(props.winningRow, index)}
           square={square} />
       );
     }
   );
 
+  const className = _.join([
+    'grid',
+    _.isEmpty(winningRow) ? '' : 'game-over'
+  ], ' ').trim();
+
   return (
-    <section className="grid">
+    <section className={className}>
       {
         _(squares).chunk(3).map(
           (squareRow, index) => (

@@ -1,10 +1,11 @@
-$background: Cornsilk;
-$row-background: Azure;
-$square-background: DarkSeaGreen;
+$background-color: Cornsilk;
+$primary-color: Azure;
+$secondary-color: DarkSeaGreen;
+$winning-color: Gold;
 $base-border-radius: 0.25rem;
 
 body {
-  background: $background;
+  background: $background-color;
   display: flex;
 
   height: 100vh;
@@ -14,14 +15,14 @@ body {
   justify-content: center;
 
   font-family: helvetica;
-  color: $square-background;
+  color: $secondary-color;
 }
 
 .grid {
   display: flex;
   flex-direction: column;
 
-  background-color: $row-background;
+  background-color: $primary-color;
   border-radius: $base-border-radius;
   padding: 0.25rem;
 
@@ -29,16 +30,48 @@ body {
     display: flex;
 
     .square {
-      background-color: $square-background;
+      background-color: $secondary-color;
       border-radius: $base-border-radius;
       margin: 0.25rem;
 
       height: 5rem;
       width: 5rem;
 
-      color: $row-background;
+      color: $primary-color;
       font-size: 4rem;
       text-align: center;
+
+      transition: background-color 0.25s;
+
+      &.winner {
+        background-color: $winning-color;
+      }
     }
   }
+
+  // Spin and scale up the board when a user wins
+  &.game-over {
+    animation: 0.5s ease-in 0s forwards Explode;
+  }
+
+  // Show clickable indicator as long as game is ongoing
+  &:not(.game-over) .row .square {
+    &:not(.x):not(.o):hover {
+      cursor: pointer;
+      animation: 1s linear 0s infinite Wobble;
+    }
+  }
+}
+
+@keyframes Wobble {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+  100% { transform: rotate(0); }
+}
+
+@keyframes Explode {
+  0% { transform: scale(1, 1) rotate(0); }
+  50% { transform: scale(1.6, 1.6) rotate(-20deg); }
+  100% { transform: scale(1.4, 1.4) rotate(360deg); }
 }

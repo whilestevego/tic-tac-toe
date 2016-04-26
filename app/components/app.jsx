@@ -45,20 +45,28 @@ export default class App extends React.Component {
 
     // Check for a win
     const winningRow = validateWin(newGrid);
-    if (winningRow) this.setState({winningRow});
+    if (winningRow) {
+      this.setState({
+        winningRow,
+        grid: newGrid
+      });
+      return;
+    }
 
     // Update grid
     this.setState({grid: newGrid});
+
+    // Switch player
     this.togglePlayer();
   }
 
   render() {
-    const {grid, activePlayer} = this.state;
+    const {grid, activePlayer, winningRow} = this.state;
 
     return (
       <section>
         <h1>{`Player ${_.toUpper(activePlayer)}`}</h1>
-        <Grid grid={grid} onClick={this.makeMove} />
+        <Grid grid={grid} winningRow={winningRow} onClick={this.makeMove} />
       </section>
     );
   }
