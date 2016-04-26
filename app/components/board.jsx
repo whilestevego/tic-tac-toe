@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import Square from './square.jsx';
 
-export default function Board (props) {
+export default function Board(props) {
   const {grid, winningRow} = props;
 
   const squares = _.map(

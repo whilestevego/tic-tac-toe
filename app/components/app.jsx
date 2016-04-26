@@ -36,7 +36,7 @@ export default class App extends React.Component {
   makeMove(index) {
     const {grid, activePlayer} = this.state;
 
-    // Prevent any other moves if winning row is found
+    // Prevent any other moves if a winning row is found
     if (!_.isEmpty(this.state.winningRow)) return;
 
     // Construct next turns grid
@@ -46,6 +46,7 @@ export default class App extends React.Component {
     // Check for a win
     const winningRow = validateWin(newGrid);
     if (winningRow) {
+      // Final update to the Board
       this.setState({
         winningRow,
         grid: newGrid

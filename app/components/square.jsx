@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import _ from 'lodash';
 
-export default function Square({square, onClick, winner}) {
+export default function Square({square, onClick, isWinner}) {
   const extraProps = {};
 
   if (square === ' ') extraProps.onClick = onClick;
   extraProps.className = _.join([
     'square',
     square,
-    winner ? 'winner' : ''
+    isWinner ? 'is-winner' : ''
   ], ' ').trim();
 
   return (
