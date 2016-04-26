@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-Not quite functional. Begins of Tic Tac Toe game being built with React.
+A Tic Tac Toe game built with React + Webpack. Reload the page to play again.
 
 ### Check it out
 
