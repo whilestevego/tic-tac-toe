@@ -8803,7 +8803,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background: cornsilk;\n  display: flex;\n  height: 100vh;\n  width: 100vw;\n  align-items: center;\n  justify-content: center; }\n\n.grid {\n  display: flex; }\n  .grid .row {\n    background-color: azure; }\n    .grid .row .square {\n      background-color: DarkSeaGreen;\n      margin: 0.5rem;\n      height: 5rem;\n      width: 5rem;\n      font-family: helvetica;\n      color: azure;\n      font-size: 4rem;\n      text-align: center; }\n", ""]);
+	exports.push([module.id, "body {\n  background: Cornsilk;\n  display: flex;\n  height: 100vh;\n  width: 100vw;\n  align-items: center;\n  justify-content: center;\n  font-family: helvetica;\n  color: DarkSeaGreen; }\n\n.grid {\n  display: flex;\n  flex-direction: column;\n  background-color: Azure;\n  border-radius: 0.25rem;\n  padding: 0.25rem; }\n  .grid .row {\n    display: flex; }\n    .grid .row .square {\n      background-color: DarkSeaGreen;\n      border-radius: 0.25rem;\n      margin: 0.25rem;\n      height: 5rem;\n      width: 5rem;\n      color: Azure;\n      font-size: 4rem;\n      text-align: center;\n      transition: background-color 0.25s; }\n      .grid .row .square.winner {\n        background-color: Gold; }\n  .grid.game-over {\n    animation: 0.5s ease-in 0s forwards Explode; }\n  .grid:not(.game-over) .row .square:not(.x):not(.o):hover {\n    cursor: pointer;\n    animation: 1s linear 0s infinite Wobble; }\n\n@keyframes Wobble {\n  0% {\n    transform: rotate(0); }\n  25% {\n    transform: rotate(-5deg); }\n  75% {\n    transform: rotate(5deg); }\n  100% {\n    transform: rotate(0); } }\n\n@keyframes Explode {\n  0% {\n    transform: scale(1, 1) rotate(0); }\n  50% {\n    transform: scale(1.6, 1.6) rotate(-20deg); }\n  100% {\n    transform: scale(1.4, 1.4) rotate(360deg); } }\n", ""]);
 
 	// exports
 
@@ -26704,9 +26704,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _grid = __webpack_require__(315);
+	var _lodash = __webpack_require__(315);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _grid = __webpack_require__(316);
 
 	var _grid2 = _interopRequireDefault(_grid);
+
+	var _ticTacToe = __webpack_require__(318);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26725,22 +26731,79 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
 
 	    _this.state = {
+	      winningRow: [],
 	      activePlayer: 'x',
-	      grid: ['o', ' ', ' ', ' ', 'x', ' ', ' ', ' ', ' '],
+	      grid: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
 	      score: {
 	        x: 0, y: 0
 	      }
 	    };
+
+	    _this.makeMove = _this.makeMove.bind(_this);
+	    _this.togglePlayer = _this.togglePlayer.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(App, [{
+	    key: 'togglePlayer',
+	    value: function togglePlayer() {
+	      var toggle = function toggle(player) {
+	        return { x: 'o', o: 'x' }[player];
+	      };
+
+	      this.setState(function (prevState) {
+	        return { activePlayer: toggle(prevState.activePlayer) };
+	      });
+	    }
+	  }, {
+	    key: 'makeMove',
+	    value: function makeMove(index) {
+	      var _state = this.state;
+	      var grid = _state.grid;
+	      var activePlayer = _state.activePlayer;
+
+	      // Prevent any other moves if winning row is found
+
+	      if (!_lodash2.default.isEmpty(this.state.winningRow)) return;
+
+	      // Construct next turns grid
+	      var newGrid = grid;
+	      newGrid[index] = activePlayer;
+
+	      // Check for a win
+	      var winningRow = (0, _ticTacToe.validateWin)(newGrid);
+	      if (winningRow) {
+	        this.setState({
+	          winningRow: winningRow,
+	          grid: newGrid
+	        });
+	        return;
+	      }
+
+	      // Update grid
+	      this.setState({ grid: newGrid });
+
+	      // Switch player
+	      this.togglePlayer();
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _state2 = this.state;
+	      var grid = _state2.grid;
+	      var activePlayer = _state2.activePlayer;
+	      var winningRow = _state2.winningRow;
+
+
 	      return _react2.default.createElement(
 	        'section',
 	        null,
-	        _react2.default.createElement(_grid2.default, { grid: this.state.grid })
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Player ' + _lodash2.default.toUpper(activePlayer)
+	        ),
+	        _react2.default.createElement(_grid2.default, { grid: grid, winningRow: winningRow, onClick: this.makeMove })
 	      );
 	    }
 	  }]);
@@ -26780,77 +26843,6 @@
 
 /***/ },
 /* 315 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = Grid;
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _lodash = __webpack_require__(316);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _square = __webpack_require__(317);
-
-	var _square2 = _interopRequireDefault(_square);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function Grid(props) {
-	  var grid = props.grid;
-
-
-	  return _react2.default.createElement(
-	    'section',
-	    { className: 'grid' },
-
-	    //TODO: Create function or component generation here
-	    _lodash2.default.map(_lodash2.default.chunk(grid, 3), function (squares) {
-	      return _react2.default.createElement(
-	        'section',
-	        { className: 'row' },
-	        _lodash2.default.map(squares, function (square, index) {
-	          return _react2.default.createElement(_square2.default, { key: index, square: square });
-	        })
-	      );
-	    })
-	  );
-	}
-
-	(function () {
-	  function tagSource(fn, localName) {
-	    if (typeof fn !== "function") {
-	      return;
-	    }
-
-	    if (fn.hasOwnProperty("__source")) {
-	      return;
-	    }
-
-	    try {
-	      Object.defineProperty(fn, "__source", {
-	        enumerable: false,
-	        configurable: true,
-	        value: {
-	          fileName: '/Users/sg/Code/vm-tic-tac-toe/app/components/grid.jsx',
-	          localName: localName
-	        }
-	      });
-	    } catch (err) {}
-	  }
-
-	  tagSource(Grid, 'Grid');
-	})();
-
-/***/ },
-/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -42884,54 +42876,65 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(90)(module), (function() { return this; }())))
 
 /***/ },
-/* 317 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	exports.default = Grid;
 
 	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _lodash = __webpack_require__(315);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _square = __webpack_require__(317);
+
+	var _square2 = _interopRequireDefault(_square);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function Grid(props) {
+	  var grid = props.grid;
+	  var winningRow = props.winningRow;
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  var squares = _lodash2.default.map(grid, function (square, index) {
+	    var boundClick = props.onClick.bind({}, index);
 
-	var Square = function (_React$Component) {
-	  _inherits(Square, _React$Component);
+	    return _react2.default.createElement(_square2.default, {
+	      key: index,
+	      onClick: boundClick,
+	      winner: _lodash2.default.includes(props.winningRow, index),
+	      square: square });
+	  });
 
-	  function Square(props) {
-	    _classCallCheck(this, Square);
+	  var className = _lodash2.default.join(['grid', _lodash2.default.isEmpty(winningRow) ? '' : 'game-over'], ' ').trim();
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Square).call(this, props));
-	  }
-
-	  _createClass(Square, [{
-	    key: "render",
-	    value: function render() {
+	  return _react2.default.createElement(
+	    'section',
+	    { className: className },
+	    (0, _lodash2.default)(squares).chunk(3).map(function (squareRow, index) {
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "square" },
-	        this.props.square
+	        'section',
+	        {
+	          key: index,
+	          className: 'row' },
+	        squareRow
 	      );
-	    }
-	  }]);
+	    }).value()
+	  );
+	}
 
-	  return Square;
-	}(_react2.default.Component);
-
-	var _default = Square;
-	exports.default = _default;
+	Grid.propTypes = {
+	  onClick: function onClick() {}
+	};
 
 	(function () {
 	  function tagSource(fn, localName) {
@@ -42948,16 +42951,145 @@
 	        enumerable: false,
 	        configurable: true,
 	        value: {
-	          fileName: "/Users/sg/Code/vm-tic-tac-toe/app/components/square.jsx",
+	          fileName: '/Users/sg/Code/vm-tic-tac-toe/app/components/grid.jsx',
 	          localName: localName
 	        }
 	      });
 	    } catch (err) {}
 	  }
 
-	  tagSource(Square, "Square");
-	  tagSource(_createClass, "_createClass");
-	  tagSource(_default, "default");
+	  tagSource(Grid, 'Grid');
+	})();
+
+/***/ },
+/* 317 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = Square;
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lodash = __webpack_require__(315);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function Square(_ref) {
+	  var square = _ref.square;
+	  var onClick = _ref.onClick;
+	  var winner = _ref.winner;
+
+	  var extraProps = {};
+
+	  if (square === ' ') extraProps.onClick = onClick;
+	  extraProps.className = _lodash2.default.join(['square', square, winner ? 'winner' : ''], ' ').trim();
+
+	  return _react2.default.createElement(
+	    'div',
+	    extraProps,
+	    square
+	  );
+	}
+
+	Square.defaultProps = {
+	  onClick: function onClick() {}
+	};
+
+	(function () {
+	  function tagSource(fn, localName) {
+	    if (typeof fn !== "function") {
+	      return;
+	    }
+
+	    if (fn.hasOwnProperty("__source")) {
+	      return;
+	    }
+
+	    try {
+	      Object.defineProperty(fn, "__source", {
+	        enumerable: false,
+	        configurable: true,
+	        value: {
+	          fileName: '/Users/sg/Code/vm-tic-tac-toe/app/components/square.jsx',
+	          localName: localName
+	        }
+	      });
+	    } catch (err) {}
+	  }
+
+	  tagSource(Square, 'Square');
+	})();
+
+/***/ },
+/* 318 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.validateWin = validateWin;
+
+	var _lodash = __webpack_require__(315);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var WIN_CONDITIONS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+
+	function selectIndexes(coll, indexes) {
+	  return _lodash2.default.filter(coll, function (val, index) {
+	    return _lodash2.default.includes(indexes, index);
+	  });
+	}
+
+	function checkRow(row) {
+	  return (/xxx|ooo/.test(row.join(''))
+	  );
+	}
+
+	function validateWin(grid) {
+	  return _lodash2.default.find(WIN_CONDITIONS, function (indexes) {
+	    return checkRow(selectIndexes(grid, indexes));
+	  });
+	}
+
+	(function () {
+	  function tagSource(fn, localName) {
+	    if (typeof fn !== "function") {
+	      return;
+	    }
+
+	    if (fn.hasOwnProperty("__source")) {
+	      return;
+	    }
+
+	    try {
+	      Object.defineProperty(fn, "__source", {
+	        enumerable: false,
+	        configurable: true,
+	        value: {
+	          fileName: '/Users/sg/Code/vm-tic-tac-toe/app/lib/tic-tac-toe.js',
+	          localName: localName
+	        }
+	      });
+	    } catch (err) {}
+	  }
+
+	  tagSource(selectIndexes, 'selectIndexes');
+	  tagSource(checkRow, 'checkRow');
+	  tagSource(validateWin, 'validateWin');
+	  tagSource(WIN_CONDITIONS, 'WIN_CONDITIONS');
 	})();
 
 /***/ }
