@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-import Grid from './grid.jsx';
+import Board from './board.jsx';
 import {validateWin} from '../lib/tic-tac-toe.js';
 
 export default class App extends React.Component {
@@ -66,7 +66,7 @@ export default class App extends React.Component {
     return (
       <section>
         <h1>{`Player ${_.toUpper(activePlayer)}`}</h1>
-        <Grid grid={grid} winningRow={winningRow} onClick={this.makeMove} />
+        <Board grid={grid} winningRow={winningRow} onClick={this.makeMove} />
       </section>
     );
   }

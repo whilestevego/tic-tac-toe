@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import _ from 'lodash';
 
 import Square from './square.jsx';
 
-export default function Grid (props) {
+export default function Board (props) {
   const {grid, winningRow} = props;
 
   const squares = _.map(
@@ -43,6 +43,6 @@ export default function Grid (props) {
   );
 }
 
-Grid.propTypes = {
+Board.defaultProps = {
   onClick: () => {}
 };
