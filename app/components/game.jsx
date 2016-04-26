@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Board from './board.jsx';
 import {validateWin} from '../lib/tic-tac-toe.js';
 
-export default class App extends React.Component {
+export default class Game extends React.Component {
   constructor(props) {
     super(props);
 
@@ -64,9 +64,15 @@ export default class App extends React.Component {
   render() {
     const {grid, activePlayer, winningRow} = this.state;
 
+    // TODO: Create as function in helper library
+    const className = _([
+      'game',
+      _.isEmpty(winningRow) ? '' : 'game-over',
+      `player-${activePlayer}`
+    ]).reject(_.isEmpty).join(' ').trim();
+
     return (
-      <section>
-        <h1>{`Player ${_.toUpper(activePlayer)}`}</h1>
+      <section className={className}>
         <Board grid={grid} winningRow={winningRow} onClick={this.makeMove} />
       </section>
     );

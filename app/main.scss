@@ -18,47 +18,66 @@ body {
   color: $secondary-color;
 }
 
-.grid {
-  display: flex;
-  flex-direction: column;
-
-  background-color: $primary-color;
-  border-radius: $base-border-radius;
-  padding: 0.25rem;
-
-  .row {
+.game {
+  .board {
     display: flex;
+    flex-direction: column;
 
-    .square {
-      background-color: $secondary-color;
-      border-radius: $base-border-radius;
-      margin: 0.25rem;
+    background-color: $primary-color;
+    border-radius: $base-border-radius;
+    padding: 0.25rem;
 
-      height: 5rem;
-      width: 5rem;
+    .row {
+      display: flex;
 
-      color: $primary-color;
-      font-size: 4rem;
-      text-align: center;
+      .square {
+        background-color: $secondary-color;
+        border-radius: $base-border-radius;
+        margin: 0.25rem;
 
-      transition: background-color 0.25s;
+        height: 5rem;
+        width: 5rem;
 
-      &.is-winner {
-        background-color: $winning-color;
+        color: $primary-color;
+        font-size: 4rem;
+        text-align: center;
+
+        transition: background-color 0.25s;
+
+        &.is-winner {
+          background-color: $winning-color;
+        }
       }
     }
+
+    // Spin and scale up the board when a user wins
   }
 
-  // Spin and scale up the board when a user wins
-  &.game-over {
+  &.game-over .board {
     animation: 0.5s ease-in 0s forwards Flourish;
   }
 
   // Show clickable indicator as long as game is ongoing
-  &:not(.game-over) .row .square {
-    &:not(.x):not(.o):hover {
-      cursor: pointer;
-      animation: 1s linear 0s infinite Wobble;
+  &:not(.game-over) {
+    .square {
+      &:not(.x):not(.o):hover {
+        cursor: pointer;
+        animation: 1s linear 0s infinite Wobble;
+      }
+    }
+
+    &.player-x .square:not(.x):not(.o):hover {
+      &:before {
+        content: 'x';
+        animation: 1.5s ease-in-out 0s infinite FadeInOut;
+      }
+    }
+
+    &.player-o .square:not(.x):not(.o):hover {
+      &:before {
+        content: 'o';
+        animation: 1.5s ease-in-out 0s infinite FadeInOut;
+      }
     }
   }
 }
@@ -74,4 +93,10 @@ body {
   0% { transform: scale(1, 1) rotate(0); }
   50% { transform: scale(1.6, 1.6) rotate(-20deg); }
   100% { transform: scale(1.4, 1.4) rotate(360deg); }
+}
+
+@keyframes FadeInOut {
+  0% { opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { opacity: 0; }
 }
