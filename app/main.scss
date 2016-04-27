@@ -42,7 +42,7 @@ body {
         font-size: 4rem;
         text-align: center;
 
-        transition: background-color 0.25s;
+        transition: background-color 0.25s, opacity 0.25s;
 
         &.is-winner {
           background-color: $winning-color;
@@ -54,16 +54,21 @@ body {
   }
 
   &.game-over .board {
-    animation: 0.5s ease-in 0s forwards Flourish;
+    .square:not(.is-winner) {
+      opacity: 0.5;
+    }
+
+    &:hover {
+      cursor: pointer;
+      animation: 1s linear 0s infinite Wobble;
+    }
   }
 
   // Show clickable indicator as long as game is ongoing
   &:not(.game-over) {
-    .square {
-      &:not(.x):not(.o):hover {
+    .square:not(.x):not(.o):hover {
         cursor: pointer;
         animation: 1s linear 0s infinite Wobble;
-      }
     }
 
     &.player-x .square:not(.x):not(.o):hover {
@@ -87,12 +92,6 @@ body {
   25% { transform: rotate(-5deg); }
   75% { transform: rotate(5deg); }
   100% { transform: rotate(0); }
-}
-
-@keyframes Flourish {
-  0% { transform: scale(1, 1) rotate(0); }
-  50% { transform: scale(1.6, 1.6) rotate(-20deg); }
-  100% { transform: scale(1.4, 1.4) rotate(360deg); }
 }
 
 @keyframes FadeInOut {
