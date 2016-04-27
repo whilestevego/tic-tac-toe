@@ -8721,25 +8721,24 @@
 
 	var _reactHotLoader = __webpack_require__(303);
 
-	var _app = __webpack_require__(314);
+	var _game = __webpack_require__(314);
 
-	var _app2 = _interopRequireDefault(_app);
+	var _game2 = _interopRequireDefault(_game);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var app = document.getElementById('app');
 
-	(0, _reactDom.render)(_react2.default.createElement(_reactHotLoader.AppContainer, { component: _app2.default }), app);
+	(0, _reactDom.render)(_react2.default.createElement(_reactHotLoader.AppContainer, { component: _game2.default }), app);
 
 	// https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915#commitcomment-17141703
 	// You have to write this thing yourself. Upside: no more dreaded
 	// Error: locals[0] does not appear to be amoduleobject errors in
 	// server, test, and other environments!
 	if (false) {
-	  module.hot.accept('./components/app.jsx', function () {
+	  module.hot.accept('./components/game.jsx', function () {
 	    (0, _reactDom.render)(_react2.default.createElement(_reactHotLoader.AppContainer, {
-	      component: require('./components/app.jsx').default
-	    }), app);
+	      component: require('./components/game.jsx').default }), app);
 	  });
 	}
 
@@ -8803,7 +8802,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background: Cornsilk;\n  display: flex;\n  height: 100vh;\n  width: 100vw;\n  align-items: center;\n  justify-content: center;\n  font-family: helvetica;\n  color: DarkSeaGreen; }\n\n.grid {\n  display: flex;\n  flex-direction: column;\n  background-color: Azure;\n  border-radius: 0.25rem;\n  padding: 0.25rem; }\n  .grid .row {\n    display: flex; }\n    .grid .row .square {\n      background-color: DarkSeaGreen;\n      border-radius: 0.25rem;\n      margin: 0.25rem;\n      height: 5rem;\n      width: 5rem;\n      color: Azure;\n      font-size: 4rem;\n      text-align: center;\n      transition: background-color 0.25s; }\n      .grid .row .square.winner {\n        background-color: Gold; }\n  .grid.game-over {\n    animation: 0.5s ease-in 0s forwards Explode; }\n  .grid:not(.game-over) .row .square:not(.x):not(.o):hover {\n    cursor: pointer;\n    animation: 1s linear 0s infinite Wobble; }\n\n@keyframes Wobble {\n  0% {\n    transform: rotate(0); }\n  25% {\n    transform: rotate(-5deg); }\n  75% {\n    transform: rotate(5deg); }\n  100% {\n    transform: rotate(0); } }\n\n@keyframes Explode {\n  0% {\n    transform: scale(1, 1) rotate(0); }\n  50% {\n    transform: scale(1.6, 1.6) rotate(-20deg); }\n  100% {\n    transform: scale(1.4, 1.4) rotate(360deg); } }\n", ""]);
+	exports.push([module.id, "body {\n  background: Cornsilk;\n  display: flex;\n  height: 100vh;\n  width: 100vw;\n  align-items: center;\n  justify-content: center;\n  font-family: helvetica;\n  color: DarkSeaGreen; }\n\n.game .board {\n  display: flex;\n  flex-direction: column;\n  background-color: Azure;\n  border-radius: 0.25rem;\n  padding: 0.25rem; }\n  .game .board .row {\n    display: flex; }\n    .game .board .row .square {\n      background-color: DarkSeaGreen;\n      border-radius: 0.25rem;\n      margin: 0.25rem;\n      height: 5rem;\n      width: 5rem;\n      color: Azure;\n      font-size: 4rem;\n      text-align: center;\n      transition: background-color 0.25s, opacity 0.25s; }\n      .game .board .row .square.is-winner {\n        background-color: Gold; }\n\n.game.game-over .board .square:not(.is-winner) {\n  opacity: 0.5; }\n\n.game.game-over .board:hover {\n  cursor: pointer;\n  animation: 1s linear 0s infinite Wobble; }\n\n.game:not(.game-over) .square:not(.x):not(.o):hover {\n  cursor: pointer;\n  animation: 1s linear 0s infinite Wobble; }\n\n.game:not(.game-over).player-x .square:not(.x):not(.o):hover:before {\n  content: 'x';\n  animation: 1.5s ease-in-out 0s infinite FadeInOut; }\n\n.game:not(.game-over).player-o .square:not(.x):not(.o):hover:before {\n  content: 'o';\n  animation: 1.5s ease-in-out 0s infinite FadeInOut; }\n\n@keyframes Wobble {\n  0% {\n    transform: rotate(0); }\n  25% {\n    transform: rotate(-5deg); }\n  75% {\n    transform: rotate(5deg); }\n  100% {\n    transform: rotate(0); } }\n\n@keyframes FadeInOut {\n  0% {\n    opacity: 0; }\n  50% {\n    opacity: 0.5; }\n  100% {\n    opacity: 0; } }\n", ""]);
 
 	// exports
 
@@ -26698,6 +26697,8 @@
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(6);
@@ -26708,9 +26709,9 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _grid = __webpack_require__(316);
+	var _board = __webpack_require__(316);
 
-	var _grid2 = _interopRequireDefault(_grid);
+	var _board2 = _interopRequireDefault(_board);
 
 	var _ticTacToe = __webpack_require__(318);
 
@@ -26722,29 +26723,32 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var App = function (_React$Component) {
-	  _inherits(App, _React$Component);
+	var Game = function (_React$Component) {
+	  _inherits(Game, _React$Component);
 
-	  function App(props) {
-	    _classCallCheck(this, App);
+	  function Game(props) {
+	    _classCallCheck(this, Game);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Game).call(this, props));
 
-	    _this.state = {
-	      winningRow: [],
-	      activePlayer: 'x',
-	      grid: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-	      score: {
-	        x: 0, y: 0
-	      }
-	    };
+	    _this.state = (0, _ticTacToe.initialGameState)();
 
 	    _this.makeMove = _this.makeMove.bind(_this);
 	    _this.togglePlayer = _this.togglePlayer.bind(_this);
+	    _this.isGameOver = _this.isGameOver.bind(_this);
+	    _this.resetGame = _this.resetGame.bind(_this);
 	    return _this;
 	  }
 
-	  _createClass(App, [{
+	  _createClass(Game, [{
+	    key: 'isGameOver',
+	    value: function isGameOver() {
+	      return !_lodash2.default.isEmpty(this.state.winningRow) || _lodash2.default.every(this.state.grid, function (square) {
+	        return (/x|o/.test(square)
+	        );
+	      });
+	    }
+	  }, {
 	    key: 'togglePlayer',
 	    value: function togglePlayer() {
 	      var toggle = function toggle(player) {
@@ -26762,7 +26766,7 @@
 	      var grid = _state.grid;
 	      var activePlayer = _state.activePlayer;
 
-	      // Prevent any other moves if winning row is found
+	      // Prevent any other moves if a winning row is found
 
 	      if (!_lodash2.default.isEmpty(this.state.winningRow)) return;
 
@@ -26773,6 +26777,7 @@
 	      // Check for a win
 	      var winningRow = (0, _ticTacToe.validateWin)(newGrid);
 	      if (winningRow) {
+	        // Final update to the Board
 	        this.setState({
 	          winningRow: winningRow,
 	          grid: newGrid
@@ -26787,6 +26792,11 @@
 	      this.togglePlayer();
 	    }
 	  }, {
+	    key: 'resetGame',
+	    value: function resetGame() {
+	      this.setState((0, _ticTacToe.initialGameState)());
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _state2 = this.state;
@@ -26794,24 +26804,30 @@
 	      var activePlayer = _state2.activePlayer;
 	      var winningRow = _state2.winningRow;
 
+	      // TODO: Create as function in helper library
+
+	      var className = (0, _lodash2.default)(['game', this.isGameOver() ? 'game-over' : '', 'player-' + activePlayer]).reject(_lodash2.default.isEmpty).join(' ').trim();
+
+	      var extraProps = {};
+	      if (this.isGameOver()) extraProps.onClick = this.resetGame;
 
 	      return _react2.default.createElement(
 	        'section',
-	        null,
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Player ' + _lodash2.default.toUpper(activePlayer)
-	        ),
-	        _react2.default.createElement(_grid2.default, { grid: grid, winningRow: winningRow, onClick: this.makeMove })
+	        { className: className },
+	        _react2.default.createElement(_board2.default, _extends({
+	          grid: grid,
+	          isGameOver: this.isGameOver(),
+	          winningRow: winningRow,
+	          onSelectSquare: this.makeMove
+	        }, extraProps))
 	      );
 	    }
 	  }]);
 
-	  return App;
+	  return Game;
 	}(_react2.default.Component);
 
-	var _default = App;
+	var _default = Game;
 	exports.default = _default;
 
 	(function () {
@@ -26829,15 +26845,16 @@
 	        enumerable: false,
 	        configurable: true,
 	        value: {
-	          fileName: '/Users/sg/Code/vm-tic-tac-toe/app/components/app.jsx',
+	          fileName: '/Users/sg/Code/vm-tic-tac-toe/app/components/game.jsx',
 	          localName: localName
 	        }
 	      });
 	    } catch (err) {}
 	  }
 
-	  tagSource(App, 'App');
+	  tagSource(Game, 'Game');
 	  tagSource(_createClass, '_createClass');
+	  tagSource(_extends, '_extends');
 	  tagSource(_default, 'default');
 	})();
 
@@ -42884,7 +42901,10 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.default = Grid;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports.default = Board;
 
 	var _react = __webpack_require__(6);
 
@@ -42900,26 +42920,28 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function Grid(props) {
+	function Board(props) {
 	  var grid = props.grid;
 	  var winningRow = props.winningRow;
+	  var isGameOver = props.isGameOver;
 
 
 	  var squares = _lodash2.default.map(grid, function (square, index) {
-	    var boundClick = props.onClick.bind({}, index);
+	    var boundClick = props.onSelectSquare.bind({}, index);
 
 	    return _react2.default.createElement(_square2.default, {
 	      key: index,
 	      onClick: boundClick,
-	      winner: _lodash2.default.includes(props.winningRow, index),
+	      isWinner: _lodash2.default.includes(winningRow, index),
 	      square: square });
 	  });
 
-	  var className = _lodash2.default.join(['grid', _lodash2.default.isEmpty(winningRow) ? '' : 'game-over'], ' ').trim();
+	  var extraProps = {};
+	  if (isGameOver) extraProps.onClick = props.onClick;
 
 	  return _react2.default.createElement(
 	    'section',
-	    { className: className },
+	    _extends({}, extraProps, { className: 'board' }),
 	    (0, _lodash2.default)(squares).chunk(3).map(function (squareRow, index) {
 	      return _react2.default.createElement(
 	        'section',
@@ -42932,8 +42954,16 @@
 	  );
 	}
 
-	Grid.propTypes = {
-	  onClick: function onClick() {}
+	Board.propTypes = {
+	  grid: _react.PropTypes.arrayOf(_react.PropTypes.string),
+	  isGameOver: _react.PropTypes.bool,
+	  winningRow: _react.PropTypes.arrayOf(_react.PropTypes.number),
+	  onSelectSquare: _react.PropTypes.func,
+	  onClick: _react.PropTypes.func
+	};
+
+	Board.defaultProps = {
+	  onSelectSquare: function onSelectSquare() {}
 	};
 
 	(function () {
@@ -42951,14 +42981,15 @@
 	        enumerable: false,
 	        configurable: true,
 	        value: {
-	          fileName: '/Users/sg/Code/vm-tic-tac-toe/app/components/grid.jsx',
+	          fileName: '/Users/sg/Code/vm-tic-tac-toe/app/components/board.jsx',
 	          localName: localName
 	        }
 	      });
 	    } catch (err) {}
 	  }
 
-	  tagSource(Grid, 'Grid');
+	  tagSource(Board, 'Board');
+	  tagSource(_extends, '_extends');
 	})();
 
 /***/ },
@@ -42985,12 +43016,12 @@
 	function Square(_ref) {
 	  var square = _ref.square;
 	  var onClick = _ref.onClick;
-	  var winner = _ref.winner;
+	  var isWinner = _ref.isWinner;
 
 	  var extraProps = {};
 
 	  if (square === ' ') extraProps.onClick = onClick;
-	  extraProps.className = _lodash2.default.join(['square', square, winner ? 'winner' : ''], ' ').trim();
+	  extraProps.className = _lodash2.default.join(['square', square, isWinner ? 'is-winner' : ''], ' ').trim();
 
 	  return _react2.default.createElement(
 	    'div',
@@ -42998,6 +43029,12 @@
 	    square
 	  );
 	}
+
+	Square.propTypes = {
+	  square: _react.PropTypes.string,
+	  isWinner: _react.PropTypes.bool,
+	  onClick: _react.PropTypes.func
+	};
 
 	Square.defaultProps = {
 	  onClick: function onClick() {}
@@ -43037,6 +43074,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.initialGameState = initialGameState;
 	exports.validateWin = validateWin;
 
 	var _lodash = __webpack_require__(315);
@@ -43056,6 +43094,17 @@
 	function checkRow(row) {
 	  return (/xxx|ooo/.test(row.join(''))
 	  );
+	}
+
+	function initialGameState() {
+	  return {
+	    winningRow: [],
+	    activePlayer: 'x',
+	    grid: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+	    score: {
+	      x: 0, y: 0
+	    }
+	  };
 	}
 
 	function validateWin(grid) {
@@ -43088,6 +43137,7 @@
 
 	  tagSource(selectIndexes, 'selectIndexes');
 	  tagSource(checkRow, 'checkRow');
+	  tagSource(initialGameState, 'initialGameState');
 	  tagSource(validateWin, 'validateWin');
 	  tagSource(WIN_CONDITIONS, 'WIN_CONDITIONS');
 	})();
