@@ -2,27 +2,25 @@ import React from 'react';
 import _ from 'lodash';
 
 import Board from './board.jsx';
-import {validateWin} from '../lib/tic-tac-toe.js';
+import {validateWin, initialGameState} from '../lib/tic-tac-toe.js';
 
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      winningRow: [],
-      activePlayer: 'x',
-      grid: [
-        ' ', ' ', ' ',
-        ' ', ' ', ' ',
-        ' ', ' ', ' '
-      ],
-      score: {
-        x: 0, y: 0
-      }
-    };
+    this.state = initialGameState();
 
     this.makeMove = this.makeMove.bind(this);
     this.togglePlayer = this.togglePlayer.bind(this);
+    this.isGameOver = this.isGameOver.bind(this);
+    this.resetGame = this.resetGame.bind(this);
+  }
+
+  isGameOver() {
+    return (
+      !_.isEmpty(this.state.winningRow) ||
+        _.every(this.state.grid, square => /x|o/.test(square))
+    );
   }
 
   togglePlayer() {
@@ -61,19 +59,31 @@ export default class Game extends React.Component {
     this.togglePlayer();
   }
 
+  resetGame() {
+    this.setState(initialGameState());
+  }
+
   render() {
     const {grid, activePlayer, winningRow} = this.state;
 
     // TODO: Create as function in helper library
     const className = _([
       'game',
-      _.isEmpty(winningRow) ? '' : 'game-over',
+      this.isGameOver() ? 'game-over' : '',
       `player-${activePlayer}`
     ]).reject(_.isEmpty).join(' ').trim();
 
+    const extraProps = {};
+    if (this.isGameOver()) extraProps.onClick = this.resetGame;
+
     return (
       <section className={className}>
-        <Board grid={grid} winningRow={winningRow} onClick={this.makeMove} />
+        <Board
+          grid={grid}
+          isGameOver={this.isGameOver()}
+          winningRow={winningRow}
+          onSelectSquare={this.makeMove}
+          {...extraProps} />
       </section>
     );
   }

@@ -4,12 +4,12 @@ import _ from 'lodash';
 import Square from './square.jsx';
 
 export default function Board(props) {
-  const {grid, winningRow} = props;
+  const {grid, winningRow, isGameOver} = props;
 
   const squares = _.map(
     grid,
     (square, index) => {
-      const boundClick = props.onClick.bind({}, index);
+      const boundClick = props.onSelectSquare.bind({}, index);
 
       return (
         <Square
@@ -21,8 +21,11 @@ export default function Board(props) {
     }
   );
 
+  const extraProps = {};
+  if (isGameOver) extraProps.onClick = props.onClick;
+
   return (
-    <section className="board">
+    <section {...extraProps} className="board">
       {
         _(squares).chunk(3).map(
           (squareRow, index) => (
@@ -40,10 +43,12 @@ export default function Board(props) {
 
 Board.propTypes = {
   grid: PropTypes.arrayOf(PropTypes.string),
+  isGameOver: PropTypes.bool,
   winningRow: PropTypes.arrayOf(PropTypes.number),
+  onSelectSquare: PropTypes.func,
   onClick: PropTypes.func
 };
 
 Board.defaultProps = {
-  onClick: () => {}
+  onSelectSquare: () => {}
 };

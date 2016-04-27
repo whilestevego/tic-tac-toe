@@ -19,6 +19,21 @@ function checkRow(row) {
   return /xxx|ooo/.test(row.join(''));
 }
 
+export function initialGameState() {
+  return {
+    winningRow: [],
+    activePlayer: 'x',
+    grid: [
+      ' ', ' ', ' ',
+      ' ', ' ', ' ',
+      ' ', ' ', ' '
+    ],
+    score: {
+      x: 0, y: 0
+    }
+  };
+}
+
 export function validateWin(grid) {
   return _.find(WIN_CONDITIONS, indexes => checkRow(selectIndexes(grid, indexes)));
 }
